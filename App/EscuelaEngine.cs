@@ -1,4 +1,6 @@
 ﻿using CoreEscuela.Entidades;
+using CoreEscuela.Utils;
+using Etapa1.Entidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace CoreEscuela.App
 {
-    public class EscuelaEngine
+    public sealed class EscuelaEngine
     {
-        
+
 
         public Escuela Escuela { get; set; }
 
@@ -22,15 +24,8 @@ namespace CoreEscuela.App
             Escuela = new Escuela("Platzi Academy", 2012, TiposEscuela.Primaria, pais: "Colombia", cuidad: "Bogotá");
             //Inicializar las propiedades que conforman la escuela
             CargarCursos();
-
-            foreach (var curso in Escuela.Cursos)
-            {
-                var lista = CargarAlumnos();
-                curso.Alumnos.AddRange(lista);
-
-            }
             CargarAsignaturas();
-            CargarEvaluaciones();
+            CargarEvaluaciones(Escuela);
 
         }
 
@@ -40,22 +35,42 @@ namespace CoreEscuela.App
             {
                 var listaAsignaturas = new List<Asignatura>()
                 {
-                    new Asignatura {Name = "Matematicas"},
-                    new Asignatura {Name = "Educación Física"},
-                    new Asignatura {Name = "Castellano"},
-                    new Asignatura {Name = "Ciencias Naturales"}
+                    new Asignatura {Nombre = "Matematicas"},
+                    new Asignatura {Nombre = "Educación Física"},
+                    new Asignatura {Nombre = "Castellano"},
+                    new Asignatura {Nombre = "Ciencias Naturales"}
                 };
-                
+
                 curso.Asignaturas.AddRange(listaAsignaturas);
             }
         }
 
-        private void CargarEvaluaciones()
-        {
-            throw new NotImplementedException();
+        private void CargarEvaluaciones(Escuela escuela, int cantidadEvaluaciones = 5)
+        {                   
+            foreach (var curso in escuela.Cursos)
+            {
+                Random rnd = new Random();
+                foreach (var asignatura in curso.Asignaturas)
+                {
+                    foreach (var alumno in curso.Alumnos)
+                    {
+                        for (int i = 0; i < cantidadEvaluaciones; i++)
+                        {
+                            var evaluacion = new Evaluación()
+                            {
+                                Name = $"{asignatura.Nombre}",
+                                Alumno = alumno,
+                                Asignatura = asignatura,
+                                Nota = Math.Round(rnd.NextDouble() * 5, 1)
+                            };
+                            alumno.Evaluaciones.Add(evaluacion);
+                        }
+                    }
+                }
+            }
         }
 
-        private IEnumerable<Alumno> CargarAlumnos()
+        private List<Alumno> GenerarAlumnosAlAzar(int cantidad)
         {
             string[] nombre1 = { "Alba", "Felipa", "Eusebio", "Farid", "Donald", "Alvaro", "Nicolás" };
             string[] apellido1 = { "Ruiz", "Sarmiento", "Uribe", "Maduro", "Trump", "Toledo", "Herrera" };
@@ -65,8 +80,8 @@ namespace CoreEscuela.App
             var listaAlumnos = from n1 in nombre1
                                from n2 in nombre2
                                from a1 in apellido1
-                               select new Alumno { Name = $"{n1} {n2} {a1}" };
-            return listaAlumnos;
+                               select new Alumno { Nombre = $"{n1} {n2} {a1}" };
+            return listaAlumnos.OrderBy((alumno)=> alumno.UniqueId).Take(cantidad).ToList();
         }
 
         private void CargarCursos()
@@ -80,6 +95,13 @@ namespace CoreEscuela.App
                 new Curso(){Nombre = "501", Jornada = TiposJornada.Tarde},
                 new Curso(){Nombre = "601", Jornada = TiposJornada.Tarde}
             };
+            Random rnd = new Random();
+            
+            foreach (var curso in Escuela.Cursos)
+            {
+                int cantidadRamdom = rnd.Next(5, 20);
+                curso.Alumnos = GenerarAlumnosAlAzar(cantidadRamdom);
+            }
         }
     }
 }

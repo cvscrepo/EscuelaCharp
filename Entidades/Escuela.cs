@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 namespace CoreEscuela.Entidades
 {
-    public class Escuela
+    public class Escuela : ObjetoEscuelaBase
     {
-        public string UniqueId { get; set; } = Guid.NewGuid().ToString();
-        public string Nombre { get; set; }
         public string País { get; set; }
         public string Ciudad { get; set; }
         public int AñoDeCreación { get; set; }
         public TiposEscuela TiposEscuela { get; set; }
-        public List<Curso> Cursos { get; set; }
+        public List<Curso> Cursos { get; set; } = new List<Curso>();
 
         //Constructor con igualación por tuplas 
         public Escuela(string nombre, int añoDeCreación) => (Nombre, AñoDeCreación) = (nombre, añoDeCreación);
@@ -27,7 +25,7 @@ namespace CoreEscuela.Entidades
         }
         public override string ToString()
         {
-            return $"Nombre:{this.Nombre}, Tipo:{this.TiposEscuela}\nPaís:{this.País}, Ciudad:{this.Ciudad} ";
+            return $"Nombre:{base.Nombre}, Tipo:{this.TiposEscuela}\nPaís:{this.País}, Ciudad:{this.Ciudad} ";
         }
     }
 }

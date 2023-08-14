@@ -58,7 +58,7 @@ namespace CoreEscuela.App
                         {
                             var evaluacion = new Evaluación()
                             {
-                                Name = $"{asignatura.Nombre}",
+                                Nombre = $"{asignatura.Nombre}",
                                 Alumno = alumno,
                                 Asignatura = asignatura,
                                 Nota = Math.Round(rnd.NextDouble() * 5, 1)
@@ -102,6 +102,25 @@ namespace CoreEscuela.App
                 int cantidadRamdom = rnd.Next(5, 20);
                 curso.Alumnos = GenerarAlumnosAlAzar(cantidadRamdom);
             }
+        }
+
+        public List<ObjetoEscuelaBase> GetObjetoEscuela()
+        {
+            var listaObj = new List<ObjetoEscuelaBase>();
+            listaObj.Add(Escuela);
+            listaObj.AddRange(Escuela.Cursos);
+            foreach (var curso in Escuela.Cursos)
+            {
+                listaObj.AddRange(curso.Asignaturas);
+                listaObj.AddRange(curso.Alumnos);
+                
+                
+                foreach (var alumno in curso.Alumnos)
+                {
+                    listaObj.AddRange(alumno.Evaluaciones);
+                }
+            }
+            return listaObj;
         }
     }
 }

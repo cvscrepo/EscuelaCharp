@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Etapa1.Entidades;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace CoreEscuela.Entidades
 {
-    public class Escuela : ObjetoEscuelaBase
+    public class Escuela : ObjetoEscuelaBase, ILugar
     {
         public string País { get; set; }
         public string Ciudad { get; set; }
         public int AñoDeCreación { get; set; }
+        public string Dirección { get; set; }
         public TiposEscuela TiposEscuela { get; set; }
         public List<Curso> Cursos { get; set; } = new List<Curso>();
 
@@ -26,6 +28,11 @@ namespace CoreEscuela.Entidades
         public override string ToString()
         {
             return $"Nombre:{base.Nombre}, Tipo:{this.TiposEscuela}\nPaís:{this.País}, Ciudad:{this.Ciudad} ";
+        }
+
+        public void LimpiarLugar()
+        {
+            //Por definir
         }
     }
 }

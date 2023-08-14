@@ -10,7 +10,7 @@ namespace CoreEscuela.Utils
     //La clase funciona como un objeto, no pueden crear instancias pero se puede usar sus propiedades
     public static class Printer
     {
-        public static void DrowLine(int tamaño = 10)
+        public static void DrawLine(int tamaño = 10)
         {
             var linea = "".PadLeft(tamaño, '=');
             Console.WriteLine(linea);
@@ -18,9 +18,9 @@ namespace CoreEscuela.Utils
 
         public static void WriteTitle(string titulo)
         {
-            DrowLine(titulo.Length + 4);
+            DrawLine(titulo.Length + 4);
             Console.WriteLine($"| {titulo} |");
-            DrowLine(titulo.Length + 4); 
+            DrawLine(titulo.Length + 4); 
         }
 
         public static void Beep(int hz = 2000, int tiempo = 500, int cantidad =1) 

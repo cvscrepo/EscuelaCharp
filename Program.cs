@@ -3,6 +3,7 @@
 using CoreEscuela.App;
 using CoreEscuela.Entidades;
 using CoreEscuela.Utils;
+using Etapa1.Entidades;
 using System;
 
 namespace CoreEscuela
@@ -14,36 +15,19 @@ namespace CoreEscuela
             var engine = new EscuelaEngine();
             engine.Inicializar();
             Printer.WriteTitle("Bienvenidos a la escuela");
-            //Printer.Beep(2000, 500, 10);
-            //ImprimirCursosEscuela(engine.Escuela);
+            //Printer.Beep(40, 500, 10);
             ImprimirAlumnosEscuela(engine.Escuela);
             ImpormirEvaluaciones(engine.Escuela);
-            //ImprimirAsignaturasEscuela(engine.Escuela);
+            var listaObjetos = engine.GetObjetoEscuela();
+            //ob = evaluacion;
 
-
-            //Pruebas de polimorfismo
-            Printer.DrowLine(20);
-            Printer.DrowLine(20);
-            Printer.DrowLine(20);
-            Printer.WriteTitle("Pruebas de polimorfismo");
-            var alumnoTest = new Alumno() {Nombre= "Claire" };
-
-            ObjetoEscuelaBase ob = alumnoTest;
-
-            Printer.WriteTitle("Alumno");
-            Console.WriteLine($"ALumno : {alumnoTest.Nombre}");
-            Console.WriteLine($"ALumno : {alumnoTest.UniqueId}");
-            Console.WriteLine($"ALumno : {alumnoTest.GetType()}");
-
-
-
-            Printer.WriteTitle("Objeto escuela");
-            Console.WriteLine($"Nombre obj : {ob.Nombre}");
-            Console.WriteLine($"Nombre obj : {ob.UniqueId}");
-            Console.WriteLine($"Nombre obj : {ob.GetType()}");
-
-
-            var objDummy = new ObjetoEscuelaBase() {Nombre = "Frank Underwood"};
+            //Podemos usar la palabra clave is para preguntar si un objeto es de un tipo determinado
+            //if(ob is Alumno)
+            //{
+            //    Alumno alumnoRecuperado = (Alumno)ob;
+            //}
+            //Tome este objeto como si fuera este obj, Si se puede hará devolverá el valor, de lo contrario dará null 
+            //Alumno alumnoRecuperado2 = ob as Alumno;
         }
 
         private static void ImprimirCursosEscuela(Escuela escuela)
@@ -102,7 +86,7 @@ namespace CoreEscuela
                 {
                     foreach (var evaluacion in alumno.Evaluaciones)
                     {
-                        Console.WriteLine($"Nombre : {evaluacion.Name}, Alumno : {evaluacion.Alumno.Nombre}, Asignatura: {evaluacion.Asignatura.Nombre}, Nota : {evaluacion.Nota}");
+                        Console.WriteLine($"Nombre : {evaluacion.Nombre}, Alumno : {evaluacion.Alumno.Nombre}, Asignatura: {evaluacion.Asignatura.Nombre}, Nota : {evaluacion.Nota}");
                     }
                 }
             }
